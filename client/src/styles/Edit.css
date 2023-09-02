@@ -1,0 +1,144 @@
+.exercise-form {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .dialog-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .content-container {
+    margin-top: 100px;
+  }
+
+  .exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .form-button {
+    margin-right: 20px;
+  }
+
+  .edit-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    background-color: #fff;
+    z-index: 1000; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px;
+    width: 95%;
+    margin: auto;
+  }
+  
+  .input-field {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .date-picker {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-exercise-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 200px;
+  }
+  
+  .dialog {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 65%;
+    margin-top: 200px;
+  }
+
+  .item {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .ok-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .exercise-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 50%;
+    margin: auto;
+  }
+  
+  .exercise-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 100%;
+  }
+  
+  .set-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 50%;
+    margin: auto;
+  }
+  
+  .add-set-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .collapse-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-link {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+  }
+  

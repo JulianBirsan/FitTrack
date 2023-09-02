@@ -1,0 +1,107 @@
+.workout-list {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .new-workout-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+  }
+  
+  .workouts-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .workout-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .workout-date {
+    font-weight: bold;
+  }
+  
+  .workout-title {
+    font-weight: bold;
+  }
+  
+  .edit-link,
+  .view-button {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .view-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .view-dialog {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .exercise-list {
+    margin-top: 20px;
+  }
+  
+  .exercise-item {
+    margin: 10px 0;
+  }
+  
+  .exercise-name {
+    font-weight: bold;
+  }
+  
+  .set-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .set-item {
+    margin: 5px 0;
+  }
+
+  .workout-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .home-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-bottom: 30px;
+  }
+
+  .title {
+ 
+    font-size: 50px;
+  }
+
+  .date-field {
+    padding: 20px;
+  }
+  
