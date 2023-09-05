@@ -21,13 +21,7 @@ const Edit = () => {
     };
 
     const generateId = () => {
-        let result = "";
-        for(let i = 0; i < 10; i++) {
-            const value = Math.floor(Math.random() * (60)) + 62;
-            const character = String.fromCharCode(value);
-            result += character;
-        }
-        return result;
+        return Math.random().toString(36).slice(2);
     };
 
     const handleSubmit = (e) => {

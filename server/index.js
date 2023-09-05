@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const db = mysql.createPool({
-    host: "127.0.0.1" ,
+    host: "127.0.0.1",
     user: "root",
     password: "root",
     database: "FitTrack",
@@ -57,16 +57,16 @@ app.post('/api/insert', (req, res) => {
 
     db.query(deleteQuery, id, (err, data) => {
         if(err) console.log(err);
-    });
 
-    let newData = [];
+        let newData = [];
 
-    exercises.forEach((exercise) => {
-        exercise.sets.forEach((set) => {
-            const insertQuery = `INSERT INTO workoutTable (id, date, exercise, weight, reps) VALUES (?, ?, ?, ?, ?)`;
-            db.query(insertQuery, [id, date, exercise.name, set[1], set[0]], (err, data) => {
-                if(err) console.log(err);
-                console.log(data);
+        exercises.forEach((exercise) => {
+            exercise.sets.forEach((set) => {
+                const insertQuery = `INSERT INTO workoutTable (id, date, exercise, weight, reps) VALUES (?, ?, ?, ?, ?)`;
+                db.query(insertQuery, [id, date, exercise.name, set[1], set[0]], (err, data) => {
+                    if(err) console.log(err);
+                    console.log(data);
+                });
             });
         });
     });
