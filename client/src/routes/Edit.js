@@ -1,54 +1,107 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useLocation } from 'react-router-dom';
-import { workouts } from './Home';
 import Axios from 'axios';
 import "../styles/Edit.css";
 
 const Edit = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
     const [exName, setExName] = useState('');
     const [getNew, setGetNew] = useState(false);
     const location = useLocation();
 
     const id = location.pathname.split('/')[2];
-    let thisWorkout = [];
-    workouts.forEach((workout) => {
-        if(workout.id === id) thisWorkout = workout.exercises;
-    });
-    let collapsedArray = [];
-    for(let i = 0; i < thisWorkout.length; i++) {
-        collapsedArray.push(false);
-    }
-    const [collapsed, setCollapsed] = useState(collapsedArray);
+    const [collapsed, setCollapsed] = useState([]);
     
-    const [data, setData] = useState(thisWorkout);
+    const [data, setData] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDateChange = (e) => {
         setSelectedDate(e);
     };
 
-    const handleSubmit = () => {
-        Axios.post('http://localhost:3001/api/insert', {
-            id: "ok",
-            title: "ok",
-            date: "ok",
-            exercises: [],
-        });
-        console.log("submitted");
+    const generateId = () => {
+        let result = "";
+        for(let i = 0; i < 10; i++) {
+            const value = Math.floor(Math.random() * (60)) + 62;
+            const character = String.fromCharCode(value);
+            result += character;
+        }
+        return result;
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        Axios.post('http://localhost:3001/api/insert', {
+            id: id === "new" ? generateId() : id,
+            date: selectedDate,
+            exercises: data,
+        });
+        window.location.href = '/';
+    };
+
+    useEffect(() => {
+        Axios.get('http://localhost:3001/api/get', {
+            params: {
+                id: id === "new" ? null : id
+            }
+        }).then((response) => {
+            console.log('response');
+            console.log(response);
+            let workoutQuery = [];
+            if(id !== "new") {
+                response.data.forEach((entry) => {
+                    if(workoutQuery.length && workoutQuery[workoutQuery.length - 1].id === entry.id) {
+                        const last = workoutQuery.length - 1;
+                        if(workoutQuery[last].exercises[workoutQuery[last].exercises.length - 1].name === entry.exercise) {
+                            workoutQuery[last].exercises[workoutQuery[last].exercises.length - 1].sets.push([entry.reps, entry.weight]);
+                        } else {
+                            workoutQuery[last].exercises.push({
+                                name: entry.exercise,
+                                sets: [
+                                    [entry.reps, entry.weight]
+                                ]
+                            });
+                        }
+                    } else {
+                        workoutQuery.push({
+                            id: entry.id,
+                            date: entry.date.split('T')[0],
+                            exercises: [
+                                {
+                                    name: entry.exercise,
+                                    sets: [
+                                        [entry.reps, entry.weight]
+                                    ]
+                                }
+    
+                            ]
+                        });
+                    }
+                });
+            }
+            let collapsedArray = [];
+            if(workoutQuery.length) {
+                setData(workoutQuery[0].exercises);
+                setSelectedDate(workoutQuery[0].date ? new Date(workoutQuery[0].date) : null);
+                for(let i = 0; i < workoutQuery[0].exercises.length; i++) {
+                    collapsedArray.push(false);
+                }
+            }
+            setCollapsed(collapsedArray);
+        });
+    }, []);
 
     return (
         <div className="exercise-form">
     <div className="edit-header">
         <div>
-            <label>Date: </label>
             <DatePicker
                 selected={selectedDate}
                 onChange={handleDateChange}
                 required={true}
                 className="date-picker"
+                placeholderText="Enter Date"
                 />
         </div>
         <button
@@ -71,6 +124,7 @@ const Edit = () => {
                 setData((data) => [...data, newExercise]);
                 setGetNew(false);
                 setExName("");
+                setCollapsed((collapsed) => [...collapsed, 0]);
                 }}
                 >
                 <div className="dialog-buttons">
@@ -87,7 +141,7 @@ const Edit = () => {
                 <button type="Submit" className="ok-button">
                 OK
                 </button>
-                <button className="ok-button" onClick={() => {
+                <button className="cancel-button" onClick={() => {
                 setGetNew(false);
                 setExName("");
                 }}>
@@ -104,7 +158,7 @@ const Edit = () => {
                 </button>
             </form>
             <a href="/">
-            <button className="ok-button">
+            <button className="cancel-button">
             Cancel
             </button>
             </a>
@@ -131,7 +185,7 @@ const Edit = () => {
                 return (
                 <div key={ind} className="set-container">
                 <span>
-                <label>Reps:</label>
+                <label>Reps: </label>
                 <input
                     type="number"
                     value={set[0]}
@@ -144,7 +198,7 @@ const Edit = () => {
                 />
                 </span>
                 <span>
-                <label>Weight:</label>
+                <label>Weight: </label>
                 <input
                     type="text"
                     value={set[1]}
@@ -160,16 +214,28 @@ const Edit = () => {
                 );
                 })}
             </div>
-            <button
-                onClick={() => {
-            const newData = [...data];
-            newData[index].sets.push([0, "0"]);
-            setData(newData);
-            }}
-            className="add-set-button"
-            >
-            Add Set
-            </button>
+            <div className='exercise-buttons'>
+                <button
+                    onClick={() => {
+                const newData = [...data];
+                newData[index].sets.push([0, "0"]);
+                setData(newData);
+                }}
+                className="add-set-button"
+                >
+                Add Set
+                </button>
+                <button className="delete-button" onClick={() => {
+                    setData((data) => {
+                        const newData = [...data];
+                        newData.splice(index, 1);
+                        console.log(newData);
+                        return newData;
+                    })
+                }}>
+                    Delete
+                </button>
+            </div>
             </>
             }
         </div>
